@@ -31,3 +31,19 @@
   flex-basis: 0;
   height: 100vh;
 }
+
+.inputs {
+  position: absolute;
+  bottom: 24px;
+  right: 12px;
+  display: flex;
+  flex-direction: row;
+  z-index: 100000;
+  gap: 4px;
+}
+
+.submit {
+  height: 24px;
+  padding: 2px 12px;
+  font-size: 12px;
+}

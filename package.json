@@ -6,7 +6,7 @@
   "homepage": "https://rarebirds.jonahmin.com",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist --cname 'lifelist.jonahmin.com'",
+    "deploy": "gh-pages -d dist --cname 'rarebirds.jonahmin.com'",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
