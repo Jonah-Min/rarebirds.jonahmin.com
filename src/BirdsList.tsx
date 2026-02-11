@@ -23,7 +23,7 @@ export default function BirdsList({ birds }: BirdsListProps) {
 
   return <div className={`sightings ${birds ? 'selected' : ''}`}>
     {birds &&
-      <div style={{ paddingLeft: '4%', paddingTop: '4%', display: 'flex', flexDirection: 'column' }}>
+      <div className="bird-list">
         <h1 className="bird-list-header">{birds[0].locName}</h1>
         {Object.entries(birdCountsByName).map(([birdName, info]) => {
           const { count, code, checklist } = info;
@@ -34,11 +34,12 @@ export default function BirdsList({ birds }: BirdsListProps) {
 
           return <Fragment key={birdName}>
             <span className="bird-sighting">
-              <span className="count">{count} x</span>
-              <strong>
-                <a className="bird-name" href={ebirdLink} target='_blank' >{birdName}</a>
-              </strong>
-              <br />
+              <span className="bird-row">
+                <span className="count">{count} x</span>
+                <strong>
+                  <a className="bird-name" href={ebirdLink} target='_blank' >{birdName}</a>
+                </strong>
+              </span>
               <div className="extra-info">
                 <a href={photosLink} target='_blank' >Macaulay library</a>
                 <br />
