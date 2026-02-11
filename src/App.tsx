@@ -68,7 +68,7 @@ function App() {
 
         // @ts-expect-error L is defined in the index html
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          minZoom: 7,
+          minZoom: 6,
           maxZoom: 15,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(mapRef.current);
