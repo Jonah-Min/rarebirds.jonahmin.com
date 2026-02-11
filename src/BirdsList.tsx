@@ -40,9 +40,9 @@ export default function BirdsList({ birds }: BirdsListProps) {
               </strong>
               <br />
               <div className="extra-info">
-                <a href={checklistLink} target='_blank' >Checklist</a>
-                <br />
                 <a href={photosLink} target='_blank' >Macaulay library</a>
+                <br />
+                <a href={checklistLink} target='_blank' >Checklist</a>
               </div>
             </span>
           </Fragment>;
