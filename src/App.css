@@ -1,5 +1,6 @@
 #root {
   width: 100%;
+  color: #333;
 }
 
 .main-container {
@@ -46,4 +47,38 @@
   height: 24px;
   padding: 2px 12px;
   font-size: 12px;
+}
+
+.bird-list-header {
+  margin-top: 8px;
+  font-size: 2.7em;
+  margin-bottom: 24px;
+}
+
+.bird-sighting {
+  text-align: left;
+  font-size: 17px;
+  margin-bottom: 16px;
+}
+
+.bird-name {
+  color: #333;
+}
+
+.bird-name:hover {
+  color: #898989;
+}
+
+.count {
+  font-size: 12px;
+  margin-right: 8px;
+}
+
+.extra-info {
+  padding-left: 10%;
+  font-size: 12px;
+}
+
+.extra-info a:hover {
+  color: #363a7c;
 }
