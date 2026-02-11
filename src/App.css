@@ -49,6 +49,10 @@
   font-size: 12px;
 }
 
+.submit:disabled {
+  opacity: 50%;
+}
+
 .bird-list-header {
   margin-top: 8px;
   font-size: 2.7em;
@@ -82,3 +86,4 @@
 .extra-info a:hover {
   color: #363a7c;
 }
+

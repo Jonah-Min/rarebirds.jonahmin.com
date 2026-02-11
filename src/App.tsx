@@ -13,15 +13,16 @@ function App() {
   const [sightings, setSightings] = useState<BirdData[]>([]);
   const [birds, setBirds] = useState<BirdData[] | null>(null);
   const [updateLoc, setUpdateLoc] = useState<boolean>(false);
-  const [lat, setLat] = useState<string | null>(null);
-  const [long, setLong] = useState<string | null>(null);
+  const [lat, setLat] = useState<string | undefined>(undefined);
+  const [long, setLong] = useState<string | undefined>(undefined);
+  const [fetchFailed, setFetchFailed] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBirds = async () => {
       const params = new URLSearchParams();
 
-      params.append("lat", `${lat !== null ? lat : DEFAULT_LATITUDE}`);
-      params.append("lng", `${long !== null ? long : DEFAULT_LONGITUDE}`);
+      params.append("lat", `${lat !== undefined ? lat : DEFAULT_LATITUDE}`);
+      params.append("lng", `${long !== undefined ? long : DEFAULT_LONGITUDE}`);
       params.append("back", '7');
       params.append("maxResults", "200");
       params.append("dist", "35");
@@ -29,8 +30,12 @@ function App() {
       const url = `https://api.ebird.org/v2/data/obs/geo/recent/notable?${params}`;
 
       if (lat && long) {
-        setLat(null);
-        setLong(null);
+        setLat(undefined);
+        setLong(undefined);
+      }
+
+      if (fetchFailed) {
+        return;
       }
 
       try {
@@ -39,6 +44,7 @@ function App() {
         const result = await response.json() as BirdData[];
         setSightings(result.filter(bird => bird.obsReviewed && bird.obsValid));
       } catch {
+        setFetchFailed(true);
         setSightings([]);
       }
     };
@@ -46,14 +52,14 @@ function App() {
     if (!sightings.length || (updateLoc && lat && long)) {
       fetchBirds();
     }
-  }, [lat, long, sightings, updateLoc]);
+  }, [fetchFailed, lat, long, sightings, updateLoc]);
 
   const initializeMap = useCallback(() => {
     if (!mapInitialized.current || updateLoc) {
       setUpdateLoc(false);
 
-      const latitude = lat !== null ? lat : DEFAULT_LATITUDE;
-      const longitude = long !== null ? long : DEFAULT_LONGITUDE;
+      const latitude = lat !== undefined ? lat : DEFAULT_LATITUDE;
+      const longitude = long !== undefined ? long : DEFAULT_LONGITUDE;
 
       if (!mapRef.current) {
         mapInitialized.current = true;
@@ -67,12 +73,17 @@ function App() {
         maxZoom: 19,
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(mapRef.current);
+
+      mapRef.current.on('moveend', () => {
+        const { lat, lng } = mapRef.current.getCenter();
+        setLat(lat);
+        setLong(lng);
+      });
     }
   }, [lat, long, updateLoc]);
 
   useEffect(() => {
     if (sightings.length && mapRef.current) {
-      console.log({ sightings });
       const sightingsByLoc: Record<string, BirdData[]> = {};
 
       sightings.forEach((sighting) => {
@@ -109,13 +120,21 @@ function App() {
     <BirdsList birds={birds} />
     <div ref={initializeMap} id="map"></div>
     <div className='inputs'>
-      <input onChange={({ target: { value } }) => {
-        setLat(value);
-      }} placeholder="Latitude" />
-      <input onChange={({ target: { value } }) => {
-        setLong(value);
-      }} placeholder="Longitude" />
-      <button className="submit" disabled={!canSubmit} onClick={() => setUpdateLoc(true)}>Submit</button>
+      <input
+        placeholder={lat !== undefined ? lat : "Latitude"}
+        onChange={({ target: { value } }) => {
+          setLat(value);
+        }}
+      />
+      <input
+        placeholder={long !== undefined ? long : "Longitude"}
+        onChange={({ target: { value } }) => {
+          setLong(value);
+        }}
+      />
+      <button className="submit" disabled={!canSubmit} onClick={() => setUpdateLoc(true)}>
+        Get rare birds!
+      </button>
     </div>
   </div>);
 }
