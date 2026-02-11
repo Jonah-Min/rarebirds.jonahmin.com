@@ -11,7 +11,7 @@
 
 .sightings {
   text-wrap: wrap;
-  width: 30%;
+  width: 25%;
   height: 98%;
   transition: left 500ms ease;
   position: absolute;
