@@ -24,7 +24,7 @@ function App() {
 
       params.append("lat", `${lat !== undefined ? lat : DEFAULT_LATITUDE}`);
       params.append("lng", `${long !== undefined ? long : DEFAULT_LONGITUDE}`);
-      params.append("back", '7');
+      params.append("back", '2');
       params.append("maxResults", "500");
       params.append("dist", "50");
 
